@@ -1,0 +1,21 @@
+version: '3.8'
+services: 
+  postgres: 
+    image: postgres
+    container_name: postgres 
+    ports: 
+      - "5432:5432"
+    volumes: 
+      - postgres_data:/data/db 
+  app:
+    build: 
+      context: ./ 
+      dockerfile: Dockerfile 
+    environment: 
+      DATABASE_URL: postgresql://postgres:mysecretpassword@postgres:5432/postgres?sslmode=disable
+    ports:
+     - "8080:8080"
+    depends_on: 
+     - postgres
+volumes: 
+  postgres_data:
